@@ -40,7 +40,8 @@ defmodule ExAws.Mixfile do
       {:dialyze, "~> 0.2.0", only: [:dev, :test]},
       {:mox, "~> 0.3", only: :test},
       {:bypass, "~> 0.7", only: :test},
-      {:configparser_ex, "~> 2.0", optional: true}
+      {:configparser_ex, "~> 2.0", optional: true},
+      {:timex, "~> 3.0"}
     ]
   end
 
