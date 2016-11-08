@@ -20,7 +20,7 @@ defmodule ExAws.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :crypto],
+    [applications: [:logger, :crypto, :timex],
      mod: {ExAws, []}]
   end
 
@@ -42,6 +42,7 @@ defmodule ExAws.Mixfile do
       {:dialyze, "~> 0.2.0", only: :dev},
       {:bypass, "~> 0.1", only: :test},
       {:configparser_ex, "~> 0.2.1", optional: true},
+      {:timex, "~> 3.0"}
     ]
   end
 
