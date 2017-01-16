@@ -87,8 +87,17 @@ defmodule ExAws.Auth do
         body \\ nil
       ) do
     with {:ok, config} <- validate_config(config) do
-      service = service_name(service)
-      signed_headers = presigned_url_headers(url, query_params)
+      if service == :s3 && config[:s3_auth_version] == "2" do
+        presigned_url_v2(http_method, url, service, datetime, config, expires, query_params)
+      else
+        presigned_url_v4(http_method, url, service, datetime, config, expires, query_params)
+      end
+    end
+  end
+
+  def presigned_url_v4(http_method, url, service, datetime, config, expires, query_params \\ []) do
+    service = service_name(service)
+    signed_headers = presigned_url_headers(url, query_params)
 
       org_query_params = query_params |> Enum.map(fn {k, v} -> {to_string(k), v} end)
 
@@ -128,7 +137,21 @@ defmodule ExAws.Auth do
 
       {:ok,
        "#{uri.scheme}://#{uri.authority}#{path}?#{query_for_url}&X-Amz-Signature=#{signature}"}
-    end
+  end
+
+  def presigned_url_v2(:get, url, :s3, datetime, config, expires, query_params \\ []) do
+    string_to_sign = [
+      "GET\n",
+      "\n",
+      "\n",
+      expires <> "\n",
+      "",
+      url
+    ]
+    |> String.join("\n")
+    |> Auth.Utils.hmac_sha
+    |> Base.encode64
+    |> URI.encode
   end
 
   defp handle_temp_credentials(headers, %{security_token: token}) do
