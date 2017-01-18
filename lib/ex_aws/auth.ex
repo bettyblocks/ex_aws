@@ -143,7 +143,7 @@ defmodule ExAws.Auth do
     expires = :os.system_time(:seconds) + expires
 
     string_to_sign = [
-      "GET\n",
+      "GET",
       "",
       "",
       inspect(expires),
