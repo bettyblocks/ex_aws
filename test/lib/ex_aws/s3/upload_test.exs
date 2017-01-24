@@ -3,7 +3,6 @@ defmodule ExAws.S3.UploadTest do
 
   import Support.BypassHelpers
   alias ExAws.S3
-  alias Experimental.Flow
 
   describe "integration test" do
     setup [:start_bypass]
@@ -17,25 +16,7 @@ defmodule ExAws.S3.UploadTest do
         file_path
         |> S3.Upload.stream_file
         |> S3.upload("my-bucket", "test.txt")
-        |> ExAws.request!(exaws_config_for_bypass(bypass))
-
-      assert_received :initiated_upload
-      assert_received :chunk_uploaded
-      assert_received :completed_upload
-    end
-
-    test "uploading data from a flow", %{bypass: bypass} do
-      flow =
-        ["hello world"]
-        |> Enum.with_index
-        |> Flow.from_enumerable
-
-      setup_multipart_upload_backend(bypass, self, "my-bucket", "test.txt")
-
-      :done =
-        flow
-        |> S3.upload("my-bucket", "test.txt")
-        |> ExAws.request!(exaws_config_for_bypass(bypass))
+        |> ExAws.request(exaws_config_for_bypass(bypass))
 
       assert_received :initiated_upload
       assert_received :chunk_uploaded
