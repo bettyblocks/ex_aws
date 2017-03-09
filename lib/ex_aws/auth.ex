@@ -93,7 +93,7 @@ defmodule ExAws.Auth do
     {:ok, "#{uri.scheme}://#{uri.authority}#{path}?#{query_for_url}&X-Amz-Signature=#{signature}"}
   end
 
-  def presigned_url_v2(:get, url, :s3, datetime, config, expires, query_params \\ []) do
+  def presigned_url_v2(:get, url, :s3, _datetime, config, expires, _query_params \\ []) do
     expires = :os.system_time(:seconds) + expires
 
     string_to_sign = [
@@ -192,7 +192,7 @@ defmodule ExAws.Auth do
     ] |> IO.iodata_to_binary
   end
 
-  def build_canonical_request_v2(http_method, path, query, headers, body, datetime) do
+  def build_canonical_request_v2(http_method, path, query, headers, _body, _datetime) do
     http_method = http_method |> method_string |> String.upcase
 
     content_md5 = find_header_value(headers, "content-md5")
@@ -311,7 +311,7 @@ defmodule ExAws.Auth do
 
   defp canonical_headers_v2(headers) do
     headers
-    |> Enum.filter(fn {k, v} -> String.starts_with?(k, "x-amz") end)
+    |> Enum.filter(fn {k, _v} -> String.starts_with?(k, "x-amz") end)
     |> canonical_headers
   end
 

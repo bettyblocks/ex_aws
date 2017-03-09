@@ -9,7 +9,7 @@ defmodule ExAws.Auth.Signatures do
     |> bytes_to_hex
   end
 
-  def generate_signature_v2(service, config, datetime, string_to_sign) do
+  def generate_signature_v2(_service, config, _datetime, string_to_sign) do
     config[:secret_access_key]
     |> hmac_sha(string_to_sign)
     |> Base.encode64
