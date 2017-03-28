@@ -120,7 +120,7 @@ defmodule ExAws.Auth do
   defp auth_header_v2(http_method, url, headers, body, service, datetime, config) do
     uri = URI.parse(url)
     path = uri_encode(uri.path)
-    query = if uri.query, do: uri.query |> URI.decode_query |> Enum.to_list |> canonical_query_params, else: ""
+    query = if uri.query, do: uri.query |> URI.decode_query |> Enum.to_list |> canonical_query_params_v2, else: ""
     signature = signature_v2(http_method, path, query, headers, body, service, datetime, config)
     [
       "AWS ",
@@ -174,17 +174,13 @@ defmodule ExAws.Auth do
     http_method = http_method |> method_string |> String.upcase
 
     content_md5 = find_header_value(headers, "content-md5")
-    content_type = if http_method == "PUT" do
-      find_header_value(headers, "content-type", "application/octet-stream")
-    else
-      find_header_value(headers, "content-type")
-    end
+    content_type = find_header_value(headers, "content-type", default_content_type(http_method))
     date = find_header_value(headers, "date")
 
-    headers = headers |> canonical_headers_v2
-    header_string = headers
-    |> Enum.map(fn {k, v} -> "#{k}:#{remove_dup_spaces(to_string(v))}" end)
-    |> Enum.join("\n")
+    headers =
+      headers
+      |> canonical_headers_v2
+      |> Enum.map(fn {k, v} -> "#{k}:#{remove_dup_spaces(to_string(v))}\n" end)
 
     resource_string = path <> canonical_query(query)
 
@@ -193,10 +189,14 @@ defmodule ExAws.Auth do
       content_md5, "\n",
       content_type, "\n",
       date, "\n",
-      header_string, "\n",
-      resource_string
+      headers,
+      resource_string <> query
     ] |> IO.iodata_to_binary
   end
+
+  defp default_content_type("PUT"), do: "application/octet-stream"
+  defp default_content_type("POST"), do: "application/octet-stream"
+  defp default_content_type(_), do: ""
 
   defp find_header_value(headers, key, default \\ "") do
     header = Enum.find(headers, fn el ->
@@ -247,6 +247,14 @@ defmodule ExAws.Auth do
   defp canonical_query_params(params) do
     params
     |> Enum.sort(fn {k1, _}, {k2, _} -> k1 < k2 end)
+    |> Enum.map_join("&", &pair/1)
+  end
+
+  defp canonical_query_params_v2(nil), do: ""
+  defp canonical_query_params_v2(params) do
+    params
+    |> Enum.sort(fn {k1, _}, {k2, _} -> k1 < k2 end)
+    |> Enum.filter(fn({"x-amz-" <> _, _}) -> true; (_) -> false end)
     |> Enum.map_join("&", &pair/1)
   end
 
