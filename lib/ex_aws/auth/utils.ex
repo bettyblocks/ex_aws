@@ -10,7 +10,7 @@ defmodule ExAws.Auth.Utils do
   def uri_encode_v2(url) do
     signs = %{"+" => "%2B", "=" => "%3D", "?" => "%3F", "@" => "%40",
       "$" => "%24", "&" => "%26", "," => "%2C", "/" => "%2F", ":" => "%3A",
-      ";" => "%3B", "?" => "%3F"}
+      ";" => "%3B", "?" => "%3F", " " => "%20"}
 
     Enum.reduce(signs, URI.encode(url), fn sign, acc ->
       String.replace(acc, elem(sign, 0), elem(sign, 1), global: true)
