@@ -8,16 +8,6 @@ defmodule ExAws.Auth.Utils do
     |> URI.encode(&valid_path_char?/1)
   end
 
-  def uri_encode_v2(url) do
-    signs = %{"+" => "%2B", "=" => "%3D", "?" => "%3F", "@" => "%40",
-      "$" => "%24", "&" => "%26", "," => "%2C", "/" => "%2F", ":" => "%3A",
-      ";" => "%3B", "?" => "%3F"}
-
-    Enum.reduce(signs, URI.encode(url), fn sign, acc ->
-      String.replace(acc, elem(sign, 0), elem(sign, 1), global: true)
-    end)
-  end
-
   # Space character
   def valid_path_char?(?\ ), do: false
   def valid_path_char?(?/), do: true
@@ -31,18 +21,13 @@ defmodule ExAws.Auth.Utils do
     |> bytes_to_hex
   end
 
-  def hmac_sha(key, data) do
-    :crypto.hmac(:sha, key, data)
-  end
-
   def hmac_sha256(key, data) do
     :crypto.hmac(:sha256, key, data)
   end
 
   def bytes_to_hex(bytes) do
     bytes
-    |> Base.encode16
-    |> String.downcase
+    |> Base.encode16(case: :lower)
   end
 
   def service_name(service), do: service |> Atom.to_string

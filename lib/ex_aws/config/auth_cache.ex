@@ -12,7 +12,13 @@ defmodule ExAws.Config.AuthCache do
   def get(config) do
     case :ets.lookup(__MODULE__, :aws_instance_auth) do
       [{:aws_instance_auth, auth_config}] -> auth_config
-      [] -> GenServer.call(__MODULE__, {:refresh_config, config})
+      [] -> GenServer.call(__MODULE__, {:refresh_config, config}, 30_000)
+    end
+  end
+  def get(profile, expiration) do
+    case :ets.lookup(__MODULE__, :awscli) do
+      [{:awscli, auth_config}] -> auth_config
+      [] -> GenServer.call(__MODULE__, {:refresh_awscli_config, profile, expiration}, 30_000)
     end
   end
 
@@ -27,10 +33,25 @@ defmodule ExAws.Config.AuthCache do
     auth = refresh_config(config, ets)
     {:reply, auth, ets}
   end
+  def handle_call({:refresh_awscli_config, profile, expiration}, _from, ets) do
+    auth = refresh_awscli_config(profile, expiration, ets)
+    {:reply, auth, ets}
+  end
 
   def handle_info({:refresh_config, config}, ets) do
     refresh_config(config, ets)
     {:noreply, ets}
+  end
+  def handle_info({:refresh_awscli_config, profile, expiration}, ets) do
+    refresh_awscli_config(profile, expiration, ets)
+    {:noreply, ets}
+  end
+
+  def refresh_awscli_config(profile, expiration, ets) do
+    auth = ExAws.CredentialsIni.security_credentials(profile)
+    :ets.insert(ets, {:awscli, auth})
+    Process.send_after(self(), {:refresh_awscli_config, profile, expiration}, expiration)
+    auth
   end
 
   def refresh_config(config, ets) do
@@ -43,8 +64,8 @@ defmodule ExAws.Config.AuthCache do
   def refresh_in(expiration) do
     expiration = expiration |> ExAws.Utils.iso_z_to_secs
     time_to_expiration = expiration - ExAws.Utils.now_in_seconds
-    refresh_in = time_to_expiration - 2 * 60 # check two min prior to expiration
-    refresh_in * 1000
+    refresh_in = time_to_expiration - 5 * 60 # check five mins prior to expiration
+    max(0, refresh_in * 1000) # check now if we should have checked in the past
   end
 
 end
