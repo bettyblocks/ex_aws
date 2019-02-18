@@ -57,23 +57,25 @@ defmodule ExAws.Auth do
   end
 
   def headers_v2(http_method, url, service, config, headers, body) do
-    datetime = :calendar.universal_time
-    headers = [
-      {"host", URI.parse(url).authority},
-      {"date", Timex.now |> Timex.format!("{WDshort}, {D} {Mshort} {YYYY} {h24}:{m}:{s} {Z}")}
-      | headers
-    ]
+    with {:ok, config} <- validate_config(config) do
+      datetime = :calendar.universal_time
+      headers = [
+        {"host", URI.parse(url).authority},
+        {"date", Timex.now |> Timex.format!("{WDshort}, {D} {Mshort} {YYYY} {h24}:{m}:{s} {Z}")}
+        | headers
+      ]
 
-    auth_header = auth_header_v2(
-      http_method,
-      url,
-      headers,
-      body,
-      service |> service_name,
-      datetime,
-      config)
+      auth_header = auth_header_v2(
+        http_method,
+        url,
+        headers,
+        body,
+        service |> service_name,
+        datetime,
+        config)
 
-    [{"Authorization", auth_header} | headers]
+      {:ok, [{"Authorization", auth_header} | headers]}
+    end
   end
 
   def presigned_url(
@@ -165,7 +167,7 @@ defmodule ExAws.Auth do
     ]
     |> Enum.join("&")
 
-    "#{path}?#{query_for_url}"
+    {:ok, "#{path}?#{query_for_url}"}
   end
 
   defp handle_temp_credentials(headers, %{security_token: token}) do
