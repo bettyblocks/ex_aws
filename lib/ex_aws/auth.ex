@@ -90,12 +90,12 @@ defmodule ExAws.Auth do
       if service == :s3 && config[:s3_auth_version] == "2" do
         presigned_url_v2(http_method, url, service, datetime, config, expires, query_params)
       else
-        presigned_url_v4(http_method, url, service, datetime, config, expires, query_params)
+        presigned_url_v4(http_method, url, service, datetime, config, expires, query_params, body)
       end
     end
   end
 
-  def presigned_url_v4(http_method, url, service, datetime, config, expires, query_params \\ []) do
+  def presigned_url_v4(http_method, url, service, datetime, config, expires, query_params \\ [], body \\ nil) do
     service = service_name(service)
     signed_headers = presigned_url_headers(url, query_params)
 
