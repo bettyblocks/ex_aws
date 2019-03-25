@@ -11,6 +11,7 @@ defmodule ExAws.Config do
     :json_codec,
     :access_key_id,
     :secret_access_key,
+    :s3_auth_version,
     :debug_requests,
     :region,
     :security_token,
@@ -78,7 +79,7 @@ defmodule ExAws.Config do
   def retrieve_runtime_value(:instance_role, config) do
     config
     |> ExAws.Config.AuthCache.get()
-    |> Map.take([:access_key_id, :secret_access_key, :security_token])
+    |> Map.take([:access_key_id, :secret_access_key, :s3_auth_version, :security_token])
     |> valid_map_or_nil
   end
 
@@ -89,6 +90,7 @@ defmodule ExAws.Config do
       :role_arn,
       :access_key_id,
       :secret_access_key,
+      :s3_auth_version,
       :region,
       :security_token,
       :role_session_name,
