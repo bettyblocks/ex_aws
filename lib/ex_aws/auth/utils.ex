@@ -1,11 +1,7 @@
 defmodule ExAws.Auth.Utils do
   @moduledoc false
 
-  def uri_encode(url) do
-    url
-    |> String.replace("+", " ")
-    |> URI.encode(&valid_path_char?/1)
-  end
+  def uri_encode(url), do: ExAws.Request.Url.uri_encode(url)
 
   def uri_encode_v2(url) do
     signs = %{"+" => "%2B", "=" => "%3D", "?" => "%3F", "@" => "%40",
@@ -17,27 +13,26 @@ defmodule ExAws.Auth.Utils do
     end)
   end
 
-  # Space character
-  def valid_path_char?(?\ ), do: false
-  def valid_path_char?(?/), do: true
-
-  def valid_path_char?(c) do
-    URI.char_unescaped?(c) && !URI.char_reserved?(c)
-  end
-
   def hash_sha256(data) do
     :sha256
     |> :crypto.hash(data)
     |> bytes_to_hex
   end
 
-  def hmac_sha(key, data) do
-    :crypto.hmac(:sha, key, data)
-  end
+  # :crypto.mac/4 is introduced in Erlang/OTP 22.1 and :crypto.hmac/3 is removed
+  # in Erlang/OTP 24. The check is needed for backwards compatibility.
+  # The Code.ensure_loaded/1 call is executed so function_expored?/3 can be used
+  # to determine which function to use.
+  Code.ensure_loaded?(:crypto) || IO.warn(":crypto module failed to load")
 
-  def hmac_sha256(key, data) do
-    :crypto.hmac(:sha256, key, data)
-  end
+  case function_exported?(:crypto, :mac, 4) do
+    true ->
+      def hmac_sha(key, data), do: :crypto.mac(:hmac, :sha, key, data)
+      def hmac_sha256(key, data), do: :crypto.mac(:hmac, :sha256, key, data)
+
+    false ->
+      def hmac_sha(key, data), do: :crypto.hmac(:sha, key, data)
+      def hmac_sha256(key, data), do: :crypto.hmac(:sha256, key, data)
 
   def bytes_to_hex(bytes) do
     bytes

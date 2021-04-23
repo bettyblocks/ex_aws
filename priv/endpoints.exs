@@ -13,6 +13,7 @@
       "regions" => %{
         "ap-northeast-1" => %{"description" => "Asia Pacific (Tokyo)"},
         "ap-northeast-2" => %{"description" => "Asia Pacific (Seoul)"},
+        "ap-east-1" => %{"description" => "Asia Pacific (Hong Kong)"},
         "ap-south-1" => %{"description" => "Asia Pacific (Mumbai)"},
         "ap-southeast-1" => %{"description" => "Asia Pacific (Singapore)"},
         "ap-southeast-2" => %{"description" => "Asia Pacific (Sydney)"},
@@ -21,6 +22,8 @@
         "eu-west-1" => %{"description" => "EU (Ireland)"},
         "eu-west-2" => %{"description" => "EU (London)"},
         "eu-west-3" => %{"description" => "EU (Paris)"},
+        "eu-north-1" => %{"description" => "EU (Stockholm)"},
+        "eu-south-1" => %{"description" => "EU (Milan)"},
         "sa-east-1" => %{"description" => "South America (Sao Paulo)"},
         "us-east-1" => %{"description" => "US East (N. Virginia)"},
         "us-east-2" => %{"description" => "US East (Ohio)"},
@@ -28,9 +31,16 @@
         "us-west-2" => %{"description" => "US West (Oregon)"}
       },
       "services" => %{
-        "ce" => %{
+        "connect" => %{
           "endpoints" => %{
-            "us-east-1" => {}
+            "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-2" => %{},
+            "us-east-1" => %{},
+            "us-west-2" => %{}
           }
         },
         "firehose" => %{
@@ -38,8 +48,10 @@
             "ap-northeast-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
+            "eu-west-3" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
@@ -68,6 +80,7 @@
             "eu-central-1" => %{"protocols" => ["https"]},
             "eu-west-1" => %{"protocols" => ["https"]},
             "eu-west-2" => %{"protocols" => ["https"]},
+            "eu-north-1" => %{"protocols" => ["https"]},
             "sa-east-1" => %{"protocols" => ["https"]},
             "us-east-1" => %{"protocols" => ["https"]},
             "us-east-2" => %{"protocols" => ["https"]},
@@ -80,6 +93,7 @@
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-south-1" => %{},
+            "ap-east-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
             "ca-central-1" => %{},
@@ -87,6 +101,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -98,6 +113,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -106,6 +122,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -168,6 +185,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -176,10 +194,27 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
             "us-west-2" => %{}
+          }
+        },
+        "ingest.timestream" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-2" => %{},
+            "eu-west-1" => %{}
+          }
+        },
+        "query.timestream" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-2" => %{},
+            "eu-west-1" => %{}
           }
         },
         "translate" => %{
@@ -188,13 +223,15 @@
             "eu-west-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
-            "us-west-2" => %{}
+            "us-west-2" => %{},
+            "eu-central-1" => %{}
           }
         },
         "acm" => %{
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -203,6 +240,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -218,6 +256,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -226,6 +265,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{"sslCommonName" => "{service}.{region}.{dnsSuffix}"},
             "us-east-2" => %{},
@@ -248,6 +288,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -267,6 +308,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -275,6 +317,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -306,6 +349,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -314,6 +358,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -369,6 +414,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -377,6 +423,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -429,6 +476,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -440,6 +488,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -448,6 +497,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -460,6 +510,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -468,6 +519,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "local" => %{
               "credentialScope" => %{"region" => "us-east-1"},
               "hostname" => "localhost:8000",
@@ -496,6 +548,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "local" => %{
               "credentialScope" => %{"region" => "us-east-1"},
               "hostname" => "localhost:8000",
@@ -516,6 +569,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -524,10 +578,20 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
+            "us-west-2" => %{}
+          }
+        },
+        "session.qldb" => %{
+          "endpoints" => %{
+            "ap-northeast-1" => %{},
+            "eu-west-1" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
             "us-west-2" => %{}
           }
         },
@@ -544,6 +608,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -552,6 +617,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -591,6 +657,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -599,6 +666,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -630,6 +698,7 @@
             "ap-southeast-2" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
+            "eu-west-2" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-2" => %{}
@@ -671,6 +740,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -678,6 +748,7 @@
             "eu-central-1" => %{},
             "eu-west-1" => %{},
             "eu-west-2" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -690,6 +761,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -710,6 +782,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -718,6 +791,8 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
+            "eu-south-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -797,6 +872,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -805,6 +881,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -826,6 +903,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -834,6 +912,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -880,6 +959,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -888,6 +968,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{"sslCommonName" => "{service}.{dnsSuffix}"},
             "us-east-2" => %{},
@@ -932,6 +1013,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -943,6 +1025,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -951,6 +1034,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -994,6 +1078,27 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
+            "ap-south-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "eu-north-1" => %{},
+            "sa-east-1" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "us-west-2" => %{}
+          }
+        },
+        "servicediscovery" => %{
+          "endpoints" => %{
+            "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1006,14 +1111,6 @@
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
-            "us-west-2" => %{}
-          }
-        },
-        "servicediscovery" => %{
-          "endpoints" => %{
-            "eu-west-1" => %{},
-            "us-east-1" => %{},
-            "us-east-2" => %{},
             "us-west-2" => %{}
           }
         },
@@ -1035,6 +1132,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1043,6 +1141,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1120,12 +1219,23 @@
         "rekognition" => %{
           "endpoints" => %{
             "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
             "eu-west-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-2" => %{}
           }
+        },
+        "chime" => %{
+          "endpoints" => %{
+            "aws-global" => %{
+              "hostname" => "service.chime.aws.amazon.com",
+              "signatureVersions" => ["v2", "v3", "v4"]
+            }
+          },
+          "isRegionalized" => false,
+          "partitionEndpoint" => "aws-global"
         },
         "s3" => %{
           "defaults" => %{"protocols" => ["http", "https"], "signatureVersions" => ["s3v4"]},
@@ -1135,6 +1245,7 @@
               "signatureVersions" => ["s3", "s3v4"]
             },
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{
               "hostname" => "s3.ap-southeast-1.amazonaws.com",
@@ -1152,6 +1263,7 @@
             },
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "s3-external-1" => %{
               "credentialScope" => %{"region" => "us-east-1"},
               "hostname" => "s3-external-1.amazonaws.com",
@@ -1182,6 +1294,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1190,6 +1303,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1228,6 +1342,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1236,6 +1351,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1254,6 +1370,7 @@
               "credentialScope" => %{"region" => "ap-northeast-2"},
               "hostname" => "sts.ap-northeast-2.amazonaws.com"
             },
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1263,6 +1380,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-1-fips" => %{
@@ -1295,6 +1413,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1303,6 +1422,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "fips-us-east-1" => %{},
             "fips-us-east-2" => %{},
             "fips-us-west-1" => %{},
@@ -1317,10 +1437,31 @@
         "comprehend" => %{
           "defaults" => %{"protocols" => ["https"]},
           "endpoints" => %{
+            "eu-central-1" => %{},
             "eu-west-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
-            "us-west-2" => %{}
+            "us-west-2" => %{},
+            "ap-south-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ap-northeast-1" => %{},
+            "ca-central-1" => %{},
+            "us-gov-west-1" => %{}
+          }
+        },
+        "textract" => %{
+          "defaults" => %{"protocols" => ["https"]},
+          "endpoints" => %{
+            "us-east-2" => %{},
+            "us-east-1" => %{},
+            "us-west-1" => %{},
+            "us-west-2" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{}
           }
         },
         "waf" => %{
@@ -1361,6 +1502,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1369,6 +1511,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1380,6 +1523,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1388,6 +1532,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1395,7 +1540,23 @@
             "us-west-2" => %{}
           }
         },
-        "email" => %{"endpoints" => %{"eu-west-1" => %{}, "us-east-1" => %{}, "us-west-2" => %{}}},
+        "email" => %{
+          "endpoints" => %{
+            "ap-northeast-1" => %{},
+            "ap-south-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "us-west-2" => %{},
+            "ca-central-1" => %{},
+            "sa-east-1" => %{}
+          }
+        },
         "storagegateway" => %{
           "endpoints" => %{
             "ap-northeast-1" => %{},
@@ -1408,6 +1569,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1423,6 +1585,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1431,6 +1594,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1442,12 +1606,14 @@
           "defaults" => %{"credentialScope" => %{"service" => "cloudhsm"}},
           "endpoints" => %{
             "ap-northeast-1" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
             "ca-central-1" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
+            "eu-north-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
@@ -1497,6 +1663,7 @@
             "eu-central-1" => %{},
             "eu-west-1" => %{},
             "eu-west-2" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1592,6 +1759,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1600,6 +1768,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1611,6 +1780,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1619,6 +1789,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1645,6 +1816,7 @@
         "route53domains" => %{"endpoints" => %{"us-east-1" => %{}}},
         "states" => %{
           "endpoints" => %{
+            "ap-east-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-southeast-1" => %{},
@@ -1663,6 +1835,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1671,6 +1844,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1705,6 +1879,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1724,6 +1899,7 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -1770,6 +1946,7 @@
             "eu-central-1" => %{},
             "eu-west-1" => %{},
             "eu-west-2" => %{},
+            "eu-north-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
@@ -1780,6 +1957,7 @@
           "endpoints" => %{
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -1788,11 +1966,22 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
             "us-west-2" => %{}
+          }
+        },
+        "transcribe" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-2" => %{},
+            "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-west-1" => %{}
           }
         },
         "mediapackage" => %{
@@ -1858,6 +2047,15 @@
           },
           "isRegionalized" => false,
           "partitionEndpoint" => "aws-global"
+        },
+        "qldb" => %{
+          "endpoints" => %{
+            "ap-northeast-1" => %{},
+            "eu-west-1" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-2" => %{}
+          }
         }
       }
     },
@@ -1939,6 +2137,7 @@
           "defaults" => %{"credentialScope" => %{"service" => "execute-api"}},
           "endpoints" => %{"cn-north-1" => %{}}
         },
+        "chime" => %{"endpoints" => %{"defaults" => %{}}},
         "s3" => %{
           "defaults" => %{"protocols" => ["http", "https"], "signatureVersions" => ["s3v4"]},
           "endpoints" => %{"cn-north-1" => %{}, "cn-northwest-1" => %{}}
@@ -1992,10 +2191,13 @@
       "partition" => "aws-us-gov",
       "partitionName" => "AWS GovCloud (US)",
       "regionRegex" => "^us\\-gov\\-\\w+\\-\\d+$",
-      "regions" => %{"us-gov-west-1" => %{"description" => "AWS GovCloud (US)"}},
+      "regions" => %{
+        "us-gov-east-1" => %{"description" => "AWS GovCloud (US-East)"},
+        "us-gov-west-1" => %{"description" => "AWS GovCloud (US-West)"}
+      },
       "services" => %{
-        "elasticache" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "config" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "elasticache" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "config" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "iam" => %{
           "endpoints" => %{
             "aws-us-gov-global" => %{
@@ -2006,62 +2208,110 @@
           "isRegionalized" => false,
           "partitionEndpoint" => "aws-us-gov-global"
         },
-        "snowball" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "glacier" => %{"endpoints" => %{"us-gov-west-1" => %{"protocols" => ["http", "https"]}}},
-        "acm" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "elasticmapreduce" => %{
-          "endpoints" => %{"us-gov-west-1" => %{"protocols" => ["http", "https"]}}
+        "snowball" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "glacier" => %{
+          "endpoints" => %{
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
         },
-        "logs" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "kinesis" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "events" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "sns" => %{"endpoints" => %{"us-gov-west-1" => %{"protocols" => ["http", "https"]}}},
+        "acm" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "elasticmapreduce" => %{
+          "endpoints" => %{
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
+        },
+        "logs" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "kinesis" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "events" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "sns" => %{
+          "endpoints" => %{
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
+        },
         "polly" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "lambda" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "lambda" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "dynamodb" => %{
           "endpoints" => %{
-            "us-gov-west-1" => %{},
+            "us-gov-east-1-fips" => %{
+              "credentialScope" => %{"region" => "us-gov-east-1"},
+              "hostname" => "dynamodb.us-gov-east-1.amazonaws.com"
+            },
             "us-gov-west-1-fips" => %{
               "credentialScope" => %{"region" => "us-gov-west-1"},
               "hostname" => "dynamodb.us-gov-west-1.amazonaws.com"
-            }
+            },
+            "us-gov-east-1" => %{},
+            "us-gov-west-1" => %{}
           }
         },
         "streams.dynamodb" => %{
           "defaults" => %{"credentialScope" => %{"service" => "dynamodb"}},
           "endpoints" => %{
-            "us-gov-west-1" => %{},
+            "us-gov-east-1-fips" => %{
+              "credentialScope" => %{"region" => "us-gov-east-1"},
+              "hostname" => "dynamodb.us-gov-east-1.amazonaws.com"
+            },
             "us-gov-west-1-fips" => %{
               "credentialScope" => %{"region" => "us-gov-west-1"},
               "hostname" => "dynamodb.us-gov-west-1.amazonaws.com"
-            }
+            },
+            "us-gov-east-1" => %{},
+            "us-gov-west-1" => %{}
           }
         },
-        "es" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "monitoring" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "es" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "monitoring" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "elasticloadbalancing" => %{
-          "endpoints" => %{"us-gov-west-1" => %{"protocols" => ["http", "https"]}}
+          "endpoints" => %{
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
         },
         "metering.marketplace" => %{
           "defaults" => %{"credentialScope" => %{"service" => "aws-marketplace"}},
-          "endpoints" => %{"us-gov-west-1" => %{}}
+          "endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}
         },
-        "ec2" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "apigateway" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "kms" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "sms" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "rds" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "cloudtrail" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "ssm" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "ecr" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "ec2" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "apigateway" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "kms" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "sms" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "rds" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "cloudtrail" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "ssm" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "ecr" => %{
+          "endpoints" => %{
+            "fips-us-gov-east-1" => %{
+              "credentialScope" => %{"region" => "us-gov-east-1"},
+              "hostname" => "ecr-fips.us-gov-east-1.amazonaws.com"
+            },
+            "fips-us-gov-west_fips-1" => %{
+              "credentialScope" => %{"region" => "us-gov-west-1"},
+              "hostname" => "ecr-fips.us-gov-west-1.amazonaws.com"
+            },
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
+        },
         "cloudhsm" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
         "rekognition" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "chime" => %{"endpoints" => %{"defaults" => %{}}},
         "s3" => %{
           "defaults" => %{"signatureVersions" => ["s3", "s3v4"]},
           "endpoints" => %{
+            "fips-us-gov-east-1" => %{
+              "credentialScope" => %{"region" => "us-gov-east-1"},
+              "hostname" => "s3-fips.us-gov-east-1.amazonaws.com"
+            },
             "fips-us-gov-west-1" => %{
               "credentialScope" => %{"region" => "us-gov-west-1"},
-              "hostname" => "s3-fips-us-gov-west-1.amazonaws.com"
+              "hostname" => "s3-fips.us-gov-west-1.amazonaws.com"
+            },
+            "us-gov-east-1" => %{
+              "hostname" => "s3.us-gov-east-1.amazonaws.com",
+              "protocols" => ["http", "https"]
             },
             "us-gov-west-1" => %{
               "hostname" => "s3.us-gov-west-1.amazonaws.com",
@@ -2069,32 +2319,53 @@
             }
           }
         },
-        "elasticbeanstalk" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "sts" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "elasticbeanstalk" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "sts" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "sqs" => %{
           "endpoints" => %{
+            "us-gov-east-1" => %{
+              "protocols" => ["http", "https"],
+              "sslCommonName" => "{region}.queue.{dnsSuffix}"
+            },
             "us-gov-west-1" => %{
               "protocols" => ["http", "https"],
               "sslCommonName" => "{region}.queue.{dnsSuffix}"
             }
           }
         },
-        "tagging" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "redshift" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "storagegateway" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "tagging" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "redshift" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "storagegateway" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "autoscaling" => %{
-          "endpoints" => %{"us-gov-west-1" => %{"protocols" => ["http", "https"]}}
+          "endpoints" => %{
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
         },
         "cloudhsmv2" => %{
           "defaults" => %{"credentialScope" => %{"service" => "cloudhsm"}},
-          "endpoints" => %{"us-gov-west-1" => %{}}
+          "endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}
         },
-        "dms" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "codedeploy" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "ecs" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "directconnect" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "cloudformation" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
-        "swf" => %{"endpoints" => %{"us-gov-west-1" => %{}}}
+        "dms" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "codedeploy" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "ecs" => %{
+          "endpoints" => %{
+            "fips-us-gov-east-1" => %{
+              "credentialScope" => %{"region" => "us-gov-east-1"},
+              "hostname" => "ecs-fips-us-gov-east-1.amazonaws.com"
+            },
+            "fips-us-gov-west-1" => %{
+              "credentialScope" => %{"region" => "us-gov-west-1"},
+              "hostname" => "ecs-fips-us-gov-west-1.amazonaws.com"
+            },
+            "us-gov-east-1" => %{"protocols" => ["http", "https"]},
+            "us-gov-west-1" => %{"protocols" => ["http", "https"]}
+          }
+        },
+        "directconnect" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "cloudformation" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "swf" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
+        "sagemaker" => %{"endpoints" => %{"us-gov-west-1" => %{}}}
       }
     }
   ],

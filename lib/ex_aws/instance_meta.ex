@@ -12,7 +12,7 @@ defmodule ExAws.InstanceMeta do
   @task_role_root "http://169.254.170.2"
 
   def request(config, url) do
-    case config.http_client.request(:get, url, "", [], []) do
+    case config.http_client.request(:get, url, "", [], http_opts()) do
       {:ok, %{status_code: 200, body: body}} ->
         body
 
@@ -79,5 +79,17 @@ defmodule ExAws.InstanceMeta do
       security_token: result["Token"],
       expiration: result["Expiration"]
     }
+  end
+
+  defp http_opts do
+    # Certain solutions like kube2iam will redirect instance meta requests,
+    # we need to follow those redirects.
+    defaults = [follow_redirect: true]
+
+    overrides =
+      Application.get_env(:ex_aws, :metadata, [])
+      |> Keyword.get(:http_opts, [])
+
+    Keyword.merge(defaults, overrides)
   end
 end

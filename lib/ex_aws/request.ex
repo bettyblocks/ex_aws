@@ -1,9 +1,9 @@
 defmodule ExAws.Request do
-  require Logger
-
   @moduledoc """
   Makes requests to AWS.
   """
+
+  require Logger
 
   @type http_status :: pos_integer
   @type success_content :: %{body: binary, headers: [{binary, binary}]}
@@ -34,7 +34,7 @@ defmodule ExAws.Request do
       end
 
     with {:ok, full_headers} <- full_headers do
-      safe_url = replace_spaces(url)
+      safe_url = ExAws.Request.Url.sanitize(url, service)
 
       if config[:debug_requests] do
         Logger.debug(
@@ -91,7 +91,9 @@ defmodule ExAws.Request do
 
         {:error, %{reason: reason}} ->
           Logger.warn(
-            "ExAws: HTTP ERROR: #{inspect(reason)} for URL: #{inspect(safe_url)} ATTEMPT: #{attempt}"
+            "ExAws: HTTP ERROR: #{inspect(reason)} for URL: #{inspect(safe_url)} ATTEMPT: #{
+              attempt
+            }"
           )
 
           request_and_retry(
@@ -110,12 +112,12 @@ defmodule ExAws.Request do
   def client_error(%{status_code: status, body: body} = error, json_codec) do
     case json_codec.decode(body) do
       {:ok, %{"__type" => error_type, "message" => message} = err} ->
-        error_type
-        |> String.split("#")
-        |> case do
-          [_, type] -> handle_aws_error(type, message)
-          _ -> {:error, {:http_error, status, err}}
-        end
+        handle_error(error_type, message, status, err)
+
+      # Rather irritatingly, as of 1.15, the local version of DynamoDB returns this with a
+      # capital M in "Message"
+      {:ok, %{"__type" => error_type, "Message" => message} = err} ->
+        handle_error(error_type, message, status, err)
 
       _ ->
         {:error, {:http_error, status, error}}
@@ -138,6 +140,16 @@ defmodule ExAws.Request do
     {:error, {type, message}}
   end
 
+  defp handle_error(error_type, message, status, err) do
+    error_type
+    |> String.split("#")
+    |> case do
+      [_, type] -> handle_aws_error(type, message)
+      [type] -> handle_aws_error(type, message)
+      _ -> {:error, {:http_error, status, err}}
+    end
+  end
+
   def attempt_again?(attempt, reason, config) do
     if attempt >= config[:retries][:max_attempts] do
       {:error, reason}
@@ -153,9 +165,5 @@ defmodule ExAws.Request do
     |> trunc
     |> :rand.uniform()
     |> :timer.sleep()
-  end
-
-  defp replace_spaces(url) do
-    String.replace(url, " ", "%20")
   end
 end
