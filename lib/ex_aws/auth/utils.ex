@@ -33,6 +33,7 @@ defmodule ExAws.Auth.Utils do
     false ->
       def hmac_sha(key, data), do: :crypto.hmac(:sha, key, data)
       def hmac_sha256(key, data), do: :crypto.hmac(:sha256, key, data)
+  end
 
   def bytes_to_hex(bytes) do
     bytes
