@@ -151,7 +151,7 @@ defmodule ExAws.Auth do
     |> Enum.join("\n")
 
     signed_headers_list = headers
-    |> Keyword.keys
+    |> Enum.map(fn {k, _v} -> k end)
     |> Enum.join(";")
 
     payload = case body do
