@@ -1,10 +1,13 @@
 defmodule ExAws.Config do
-  @moduledoc false
+  @moduledoc """
+  Generates the configuration for a service
 
-  # Generates the configuration for a service.
-  # It starts with the defaults for a given environment
-  # and then merges in the common config from the ex_aws config root,
-  # and then finally any config specified for the particular service
+  It starts with the defaults for a given environment
+  and then merges in the common config from the ex_aws config root,
+  and then finally any config specified for the particular service.
+
+  TODO: Add proper documentation?
+  """
 
   @common_config [
     :http_client,
@@ -16,7 +19,9 @@ defmodule ExAws.Config do
     :region,
     :security_token,
     :retries,
-    :normalize_path
+    :normalize_path,
+    :telemetry_event,
+    :telemetry_options
   ]
 
   @type t :: %{} | Keyword.t()
@@ -67,6 +72,15 @@ defmodule ExAws.Config do
 
       {:http_opts, http_opts}, config ->
         Map.put(config, :http_opts, http_opts)
+
+      {:telemetry_event, telemetry_event}, config ->
+        Map.put(config, :telemetry_event, telemetry_event)
+
+      {:telemetry_options, telemetry_options}, config ->
+        Map.put(config, :telemetry_options, telemetry_options)
+
+      {:headers, headers}, config ->
+        Map.put(config, :headers, headers)
 
       {k, v}, config ->
         case retrieve_runtime_value(v, config) do

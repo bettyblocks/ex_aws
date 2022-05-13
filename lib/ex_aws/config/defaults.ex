@@ -40,6 +40,11 @@ defmodule ExAws.Config.Defaults do
     |> Map.merge(defaults(:sagemaker))
   end
 
+  def defaults(:sagemaker_runtime_a2i) do
+    %{service_override: :sagemaker}
+    |> Map.merge(defaults(:sagemaker))
+  end
+
   def defaults(:iot_data) do
     %{service_override: :iotdata}
     |> Map.merge(defaults(:iot))
@@ -78,7 +83,7 @@ defmodule ExAws.Config.Defaults do
   end
 
   @partitions [
-    {~r/^(us|eu|ap|sa|ca)\-\w+\-\d+$/, "aws"},
+    {~r/^(us|eu|af|ap|sa|ca|me)\-\w+\-\d+$/, "aws"},
     {~r/^cn\-\w+\-\d+$/, "aws-cn"},
     {~r/^us\-gov\-\w+\-\d+$/, "aws-us-gov"}
   ]
@@ -96,6 +101,7 @@ defmodule ExAws.Config.Defaults do
 
   defp service_map(:ses), do: "email"
   defp service_map(:sagemaker_runtime), do: "runtime.sagemaker"
+  defp service_map(:sagemaker_runtime_a2i), do: "a2i-runtime.sagemaker"
   defp service_map(:lex_runtime), do: "runtime.lex"
   defp service_map(:lex_models), do: "models.lex"
   defp service_map(:dynamodb_streams), do: "streams.dynamodb"

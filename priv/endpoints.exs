@@ -9,8 +9,9 @@
       "dnsSuffix" => "amazonaws.com",
       "partition" => "aws",
       "partitionName" => "AWS Standard",
-      "regionRegex" => "^(us|eu|ap|sa|ca)\\-\\w+\\-\\d+$",
+      "regionRegex" => "^(us|eu|af|ap|sa|ca|me)\\-\\w+\\-\\d+$",
       "regions" => %{
+        "af-south-1" => %{"description" => "Africa (Cape Town)"},
         "ap-northeast-1" => %{"description" => "Asia Pacific (Tokyo)"},
         "ap-northeast-2" => %{"description" => "Asia Pacific (Seoul)"},
         "ap-east-1" => %{"description" => "Asia Pacific (Hong Kong)"},
@@ -24,6 +25,7 @@
         "eu-west-3" => %{"description" => "EU (Paris)"},
         "eu-north-1" => %{"description" => "EU (Stockholm)"},
         "eu-south-1" => %{"description" => "EU (Milan)"},
+        "me-south-1" => %{"description" => "Middle East (Bahrain)"},
         "sa-east-1" => %{"description" => "South America (Sao Paulo)"},
         "us-east-1" => %{"description" => "US East (N. Virginia)"},
         "us-east-2" => %{"description" => "US East (Ohio)"},
@@ -45,6 +47,7 @@
         },
         "firehose" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
@@ -111,6 +114,7 @@
         },
         "config" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -164,6 +168,7 @@
         },
         "snowball" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
@@ -297,6 +302,8 @@
             "eu-west-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
+            "eu-north-1" => %{},
+            "me-south-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -412,6 +419,7 @@
         "sns" => %{
           "defaults" => %{"protocols" => ["http", "https"]},
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -434,6 +442,7 @@
         "health" => %{"endpoints" => %{"us-east-1" => %{}}},
         "glue" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-south-1" => %{},
@@ -486,6 +495,7 @@
         },
         "lambda" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -618,6 +628,7 @@
             "eu-west-2" => %{},
             "eu-west-3" => %{},
             "eu-north-1" => %{},
+            "me-south-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
@@ -696,6 +707,7 @@
             "ap-northeast-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
             "eu-west-2" => %{},
@@ -780,6 +792,7 @@
         "ec2" => %{
           "defaults" => %{"protocols" => ["http", "https"]},
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -870,6 +883,7 @@
         },
         "apigateway" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -938,6 +952,7 @@
         },
         "sms" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-south-1" => %{},
@@ -957,6 +972,7 @@
         },
         "rds" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -1019,6 +1035,23 @@
             "us-east-2" => %{},
             "us-west-1" => %{},
             "us-west-2" => %{}
+          }
+        },
+        "quicksight" => %{
+          "endpoints" => %{
+            "us-east-2" => %{},
+            "us-east-1" => %{},
+            "us-west-2" => %{},
+            "ap-south-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ap-northeast-1" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "sa-east-1" => %{}
           }
         },
         "cloudtrail" => %{
@@ -1161,16 +1194,48 @@
             "eu-west-2" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
-            "us-west-2" => %{}
+            "us-west-2" => %{},
+            "sa-east-1" => %{}
           }
         },
         "runtime.sagemaker" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
+            "ap-south-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-north-1" => %{},
+            "eu-south-1" => %{},
             "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "me-south-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
-            "us-west-2" => %{}
+            "us-west-1" => %{},
+            "us-west-2" => %{},
+            "sa-east-1" => %{}
+          }
+        },
+        "a2i-runtime.sagemaker" => %{
+          "endpoints" => %{
+            "us-east-2" => %{},
+            "us-east-1" => %{},
+            "us-west-2" => %{},
+            "ap-south-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ap-northeast-1" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{}
           }
         },
         "cloudhsm" => %{
@@ -1218,12 +1283,17 @@
         },
         "rekognition" => %{
           "endpoints" => %{
+            "ap-south-1" => %{},
             "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
             "eu-west-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
+            "us-west-1" => %{},
             "us-west-2" => %{}
           }
         },
@@ -1253,6 +1323,10 @@
             },
             "ap-southeast-2" => %{
               "hostname" => "s3.ap-southeast-2.amazonaws.com",
+              "signatureVersions" => ["s3", "s3v4"]
+            },
+            "af-south-1" => %{
+              "hostname" => "s3.af-south-1.amazonaws.com",
               "signatureVersions" => ["s3", "s3v4"]
             },
             "ca-central-1" => %{},
@@ -1292,6 +1366,7 @@
         },
         "elasticbeanstalk" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-east-1" => %{},
@@ -1365,6 +1440,7 @@
             "hostname" => "sts.amazonaws.com"
           },
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{
               "credentialScope" => %{"region" => "ap-northeast-2"},
@@ -1542,19 +1618,25 @@
         },
         "email" => %{
           "endpoints" => %{
+            "af-south-1" => %{},
             "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
             "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "eu-north-1" => %{},
+            "eu-south-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
             "us-west-2" => %{},
             "ca-central-1" => %{},
-            "sa-east-1" => %{}
+            "sa-east-1" => %{},
+            "me-south-1" => %{}
           }
         },
         "storagegateway" => %{

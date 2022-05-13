@@ -76,7 +76,7 @@ This means it will try to resolve credentials in order:
 AWS CLI config files are supported, but require an additional dependency:
 
 ```elixir
-{:configparser_ex, "~> 2.0"}
+{:configparser_ex, "~> 4.0"}
 ```
 
 You can then add `{:awscli, "profile_name", timeout}` to the above config and
@@ -99,6 +99,18 @@ dependency is required:
 ```
 
 Further information on role based authentication is provided in said dependency.
+
+#### Session token configuration
+
+Alternatively, you can also provide `AWS_SESSION_TOKEN` to `security_token` to authenticate
+with session token:
+
+```elixir
+config :ex_aws,
+  access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
+  security_token: {:system, "AWS_SESSION_TOKEN"},
+  secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"}
+```
 
 ### Hackney configuration
 
@@ -129,11 +141,11 @@ config :ex_aws,
 
 ### JSON Codec Configuration
 
-The default JSON codec is Poison.  You can choose a different one:
+The default JSON codec is Jason.  You can choose a different one:
 
 ```elixir
 config :ex_aws,
-  json_codec: Jason
+  json_codec: Poison
 ```
 
 ### Path Normalization
@@ -223,8 +235,6 @@ ExAws.request(operation)
 - Minimal dependencies. Choose your favorite JSON codec and HTTP client.
 - Elixir streams to automatically retrieve paginated resources.
 - Elixir protocols allow easy customization of Dynamo encoding / decoding.
-- `mix aws.kinesis.tail your-stream-name` task for easily watching the contents
-  of a kinesis stream.
 - Simple. ExAws aims to provide a clear and consistent elixir wrapping around
   AWS APIs, not abstract them away entirely. For every action in a given AWS
   API there is a corresponding function within the appropriate module. Higher

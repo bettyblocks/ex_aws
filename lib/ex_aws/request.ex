@@ -38,19 +38,11 @@ defmodule ExAws.Request do
 
       if config[:debug_requests] do
         Logger.debug(
-          "ExAws: Request URL: #{inspect(safe_url)} HEADERS: #{inspect(full_headers)} BODY: #{
-            inspect(req_body)
-          } ATTEMPT: #{attempt}"
+          "ExAws: Request URL: #{inspect(safe_url)} HEADERS: #{inspect(full_headers)} BODY: #{inspect(req_body)} ATTEMPT: #{attempt}"
         )
       end
 
-      case config[:http_client].request(
-             method,
-             safe_url,
-             req_body,
-             full_headers,
-             Map.get(config, :http_opts, [])
-           ) do
+      case do_request(config, method, safe_url, req_body, full_headers, attempt) do
         {:ok, %{status_code: status} = resp} when status in 200..299 or status == 304 ->
           {:ok, resp}
 
@@ -91,9 +83,7 @@ defmodule ExAws.Request do
 
         {:error, %{reason: reason}} ->
           Logger.warn(
-            "ExAws: HTTP ERROR: #{inspect(reason)} for URL: #{inspect(safe_url)} ATTEMPT: #{
-              attempt
-            }"
+            "ExAws: HTTP ERROR: #{inspect(reason)} for URL: #{inspect(safe_url)} ATTEMPT: #{attempt}"
           )
 
           request_and_retry(
@@ -107,6 +97,32 @@ defmodule ExAws.Request do
           )
       end
     end
+  end
+
+  defp do_request(config, method, safe_url, req_body, full_headers, attempt) do
+    telemetry_event = Map.get(config, :telemetry_event, [:ex_aws, :request])
+    telemetry_options = Map.get(config, :telemetry_options, [])
+    telemetry_metadata = %{options: telemetry_options, attempt: attempt}
+
+    :telemetry.span(telemetry_event, telemetry_metadata, fn ->
+      result =
+        config[:http_client].request(
+          method,
+          safe_url,
+          req_body,
+          full_headers,
+          Map.get(config, :http_opts, [])
+        )
+
+      telemetry_result =
+        case result do
+          {:ok, %{status_code: status}} when status in 200..299 or status == 304 -> :ok
+          _ -> :error
+        end
+
+      telemetry_metadata = Map.put(telemetry_metadata, :result, telemetry_result)
+      {result, telemetry_metadata}
+    end)
   end
 
   def client_error(%{status_code: status, body: body} = error, json_codec) do
@@ -128,15 +144,19 @@ defmodule ExAws.Request do
     {:error, {:http_error, status, error}}
   end
 
-  def handle_aws_error("ProvisionedThroughputExceededException" = type, message) do
+  def handle_aws_error("ProvisionedThroughputExceededException" = type, message, _) do
     {:retry, {type, message}}
   end
 
-  def handle_aws_error("ThrottlingException" = type, message) do
+  def handle_aws_error("ThrottlingException" = type, message, _) do
     {:retry, {type, message}}
   end
 
-  def handle_aws_error(type, message) do
+  def handle_aws_error(type, message, %{"expectedSequenceToken" => expected_sequence_token}) do
+    {:error, {type, message, expected_sequence_token}}
+  end
+
+  def handle_aws_error(type, message, _) do
     {:error, {type, message}}
   end
 
@@ -144,8 +164,8 @@ defmodule ExAws.Request do
     error_type
     |> String.split("#")
     |> case do
-      [_, type] -> handle_aws_error(type, message)
-      [type] -> handle_aws_error(type, message)
+      [_, type] -> handle_aws_error(type, message, err)
+      [type] -> handle_aws_error(type, message, err)
       _ -> {:error, {:http_error, status, err}}
     end
   end

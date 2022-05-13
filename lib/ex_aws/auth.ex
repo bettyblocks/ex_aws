@@ -317,12 +317,11 @@ defmodule ExAws.Auth do
     |> Enum.join("&")
   end
 
-  defp remove_dup_spaces(""), do: ""
-  defp remove_dup_spaces("  " <> rest), do: remove_dup_spaces(" " <> rest)
+  defp remove_dup_spaces(str), do: remove_dup_spaces(str, "")
+  defp remove_dup_spaces(str, str), do: str
 
-  defp remove_dup_spaces(<<char::binary-1, rest::binary>>) do
-    char <> remove_dup_spaces(rest)
-  end
+  defp remove_dup_spaces(str, _last),
+    do: str |> String.replace("  ", " ") |> remove_dup_spaces(str)
 
   defp string_to_sign(request, service, datetime, config) do
     request = hash_sha256(request)
