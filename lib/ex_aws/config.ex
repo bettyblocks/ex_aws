@@ -1,16 +1,17 @@
 defmodule ExAws.Config do
   @moduledoc """
-  Generates the configuration for a service
+  Generates the configuration for a service.
 
   It starts with the defaults for a given environment
   and then merges in the common config from the ex_aws config root,
   and then finally any config specified for the particular service.
-
-  TODO: Add proper documentation?
   """
+
+  # TODO: Add proper documentation?
 
   @common_config [
     :http_client,
+    :http_opts,
     :json_codec,
     :access_key_id,
     :secret_access_key,
@@ -29,11 +30,13 @@ defmodule ExAws.Config do
   @doc """
   Builds a complete set of config for an operation.
 
-  1) Defaults are pulled from `ExAws.Config.Defaults`
-  2) Common values set via e.g `config :ex_aws` are merged in.
-  3) Keys set on the individual service e.g `config :ex_aws, :s3` are merged in
-  4) Finally, any configuration overrides are merged in
+    1. Defaults are pulled from `ExAws.Config.Defaults`
+    2. Common values set via e.g `config :ex_aws` are merged in.
+    3. Keys set on the individual service e.g `config :ex_aws, :s3` are merged in
+    4. Finally, any configuration overrides are merged in
+
   """
+  @spec new(atom, keyword) :: %{}
   def new(service, opts \\ []) do
     overrides = Map.new(opts)
 
@@ -41,6 +44,17 @@ defmodule ExAws.Config do
     |> build_base(overrides)
     |> retrieve_runtime_config
     |> parse_host_for_region
+  end
+
+  @doc """
+  Builds a minimal HTTP configuration.
+  """
+  def http_config(service, opts \\ []) do
+    overrides = Map.new(opts)
+
+    build_base(service, overrides)
+    |> Map.take([:http_client, :http_opts, :json_codec])
+    |> retrieve_runtime_config
   end
 
   def build_base(service, overrides \\ %{}) do
@@ -143,7 +157,10 @@ defmodule ExAws.Config do
   def awscli_auth_credentials(profile, credentials_ini_provider \\ ExAws.CredentialsIni.File) do
     case Application.get_env(:ex_aws, :awscli_credentials, nil) do
       nil ->
-        credentials_ini_provider.security_credentials(profile)
+        case credentials_ini_provider.security_credentials(profile) do
+          {:ok, creds} -> creds
+          {:error, err} -> raise "Recieved error while retrieving security credentials: #{err}"
+        end
 
       %{^profile => profile_credentials} ->
         profile_credentials

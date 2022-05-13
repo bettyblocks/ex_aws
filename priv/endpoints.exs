@@ -2058,12 +2058,27 @@
         },
         "transcribe" => %{
           "endpoints" => %{
-            "us-east-1" => %{},
-            "us-east-2" => %{},
-            "us-west-2" => %{},
+            "af-south-1" => %{},
+            "ap-east-1" => %{},
+            "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-south-1" => %{},
+            "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
             "ca-central-1" => %{},
-            "eu-west-1" => %{}
+            "eu-central-1" => %{},
+            "eu-north-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "me-south-1" => %{},
+            "sa-east-1" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-gov-east-1" => %{},
+            "us-gov-west-1" => %{},
+            "us-west-1" => %{},
+            "us-west-2" => %{}
           }
         },
         "mediapackage" => %{
@@ -2136,6 +2151,92 @@
             "eu-west-1" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
+            "us-west-2" => %{}
+          }
+        },
+        "places.geo" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "eu-north-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{}
+          }
+        },
+        "maps.geo" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "eu-north-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{}
+          }
+        },
+        "geofencing.geo" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "eu-north-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{}
+          }
+        },
+        "tracking.geo" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "eu-north-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{}
+          }
+        },
+        "routes.geo" => %{
+          "endpoints" => %{
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "eu-north-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "ap-northeast-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{}
+          }
+        },
+        "sso" => %{
+          "endpoints" => %{
+            "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
+            "ap-south-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "eu-north-1" => %{},
+            "sa-east-1" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
             "us-west-2" => %{}
           }
         }
@@ -2447,7 +2548,13 @@
         "directconnect" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "cloudformation" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
         "swf" => %{"endpoints" => %{"us-gov-east-1" => %{}, "us-gov-west-1" => %{}}},
-        "sagemaker" => %{"endpoints" => %{"us-gov-west-1" => %{}}}
+        "sagemaker" => %{"endpoints" => %{"us-gov-west-1" => %{}}},
+        "sso" => %{
+          "endpoints" => %{
+            "us-gov-east-1" => %{},
+            "us-gov-west-1" => %{}
+          }
+        }
       }
     }
   ],
