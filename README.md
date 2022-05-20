@@ -1,104 +1,64 @@
-ExAws
-=====
-[![Build Status](https://travis-ci.org/CargoSense/ex_aws.svg?branch=master)](https://travis-ci.org/CargoSense/ex_aws)
+# ExAws
+
+<!-- MDOC !-->
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ex-aws/ex_aws/on-push)
+[![hex.pm](https://img.shields.io/hexpm/v/ex_aws.svg)](https://hex.pm/packages/ex_aws)
+[![hex.pm](https://img.shields.io/hexpm/dt/ex_aws.svg)](https://hex.pm/packages/ex_aws)
+[![hex.pm](https://img.shields.io/hexpm/l/ex_aws.svg)](https://hex.pm/packages/ex_aws)
+[![hexdocs.pm](https://img.shields.io/badge/hexdocs-release-lightgreen.svg)](https://hexdocs.pm/ex_aws)
+[![github.com](https://img.shields.io/github/last-commit/ex-aws/ex_aws.svg)](https://github.com/ex-aws/ex_aws/commits/master)
 
 A flexible easy to use set of AWS APIs.
 
-- `ExAws.Dynamo`
-- `ExAws.EC2`
-- `ExAws.Kinesis`
-- `ExAws.Lambda`
-- `ExAws.RDS`
-- `ExAws.S3`
-- `ExAws.SNS`
-- `ExAws.SQS`
+Available Services: https://github.com/ex-aws?q=service&type=&language=
 
-## 1.0.0-beta0 Changes
+## Un-Deprecation Notice
 
-The `v0.5` branch holds the legacy approach.
+ExAws is now actively maintained again :). It's going to take me a while to work through
+all the outstanding issues and PRs, so please bear with me.
 
-ExAws 1.0.0 takes a more data driven approach to querying APIs. The various functions
-that exist inside a service like `S3.list_objects` or `Dynamo.create_table` all
-return a struct which holds the information necessary to make that particular operation.
+- Bernard
 
-You then have 4 ways you can choose to execute that operation:
+## Getting Started
 
-```elixir
-# Normal
-S3.list_buckets |> ExAws.request #=> {:ok, response}
-# With per request configuration overrides
-S3.list_buckets |> ExAws.request(config) #=> {:ok, response}
+ExAws v2.0 breaks out every service into its own package. To use the S3
+service, you need both the core `:ex_aws` package as well as the `:ex_aws_s3`
+package.
 
-# Raise on error, return successful responses directly
-S3.list_buckets |> ExAws.request! #=> response
-S3.list_buckets |> ExAws.request!(config) #=> response
-```
-
-Certain operations also support Elixir streams:
+As with all ExAws services, you'll need a compatible HTTP client (defaults to
+`:hackney`) and whatever JSON or XML codecs needed by the services you want to
+use. Consult individual service documentation for details on what each service
+needs.
 
 ```elixir
-S3.list_objects("my-bucket") |> ExAws.stream! #=> #Function<13.52451638/2 in Stream.resource/3>
-S3.list_objects("my-bucket") |> ExAws.stream!(config) #=> #Function<13.52451638/2 in Stream.resource/3>
-```
-
-The ability to return a stream is noticed in the function's documentation.
-
-### Migration
-
-TL;DR:
-Do this now:
-```
-ExAws.S3.get_object("my-bucket", "path/to/object") |> ExAws.request
-```
-not
-```
-ExAws.S3.get_object("my-bucket", "path/to/object")
-```
-
-This change greatly simplifies the ExAws code paths, and removes entirely the complex
-meta-programming pervasive to the original approach. However, it does constitute
-a breaking change for anyone who had a client with custom logic.
-
-## Highlighted Features
-- Easy configuration.
-- Minimal dependencies. Choose your favorite JSON codec and HTTP client.
-- Elixir streams to automatically retrieve paginated resources.
-- Elixir protocols allow easy customization of Dynamo encoding / decoding.
-- `mix kinesis.tail your-stream-name` task for easily watching the contents of a kinesis stream.
-- Simple. ExAws aims to provide a clear and consistent elixir wrapping around AWS APIs, not abstract them away entirely. For every action in a given AWS API there is a corresponding function within the appropriate module. Higher level abstractions like the aforementioned streams are in addition to and not instead of basic API calls.
-
-## Getting started
-
-Add ex_aws to your mix.exs, along with your json parser and http client of choice. ExAws works out of the box with Poison and :hackney and sweet_xml. All APIs require an http client, but only some require a json or xml codec. You only need the codec for the API you intend to use. At this time only SweetXml is supported for xml parsing.
-
-- Dynamo: json
-- Kinesis: json
-- Lambda: json
-- SQS: xml
-- S3: xml
-
-If you wish to use instance roles to obtain AWS access keys you will need to add a JSON codec whether the particular API requires one or not.
-
-```elixir
-def deps do
+defp deps do
   [
-    {:ex_aws, "~> 1.0.0-beta0"},
-    {:poison, "~> 2.0"},
-    {:hackney, "~> 1.6"}
+    {:ex_aws, "~> 2.1"},
+    {:ex_aws_s3, "~> 2.0"},
+    {:hackney, "~> 1.9"},
+    {:sweet_xml, "~> 0.6"},
   ]
 end
 ```
-Don't forget to add :hackney to your applications list if that's in fact the http client you choose. `:ex_aws` must always be added to your applications list.
 
-```elixir
-def application do
-  [applications: [:ex_aws, :hackney, :poison]]
-end
+With these deps you can use `ExAws` precisely as you're used to:
+
+```
+# make a request (with the default region)
+ExAws.S3.list_objects("my-bucket") |> ExAws.request()
+
+# or specify the region
+ExAws.S3.list_objects("my-bucket") |> ExAws.request(region: "us-west-1")
+
+# some operations support streaming
+ExAws.S3.list_objects("my-bucket") |> ExAws.stream!() |> Enum.to_list()
 ```
 
-That's it!
+### AWS Key configuration
 
-ExAws has by default the equivalent including the following in your mix.exs
+ExAws requires valid AWS keys in order to work properly. ExAws by default does
+the equivalent of:
 
 ```elixir
 config :ex_aws,
@@ -106,11 +66,188 @@ config :ex_aws,
   secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role]
 ```
 
-This means it will first look for the AWS standard `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables, and fall back using instance meta-data if those don't exist. You should set those environment variables to your credentials, or configure an instance that this library runs on to have an iam role.
+This means it will try to resolve credentials in order:
+
+* Look for the AWS standard `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables
+* Resolve credentials with IAM
+  * If running inside ECS and a [task role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) has been assigned it will use it
+  * Otherwise it will fall back to the [instance role](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
+
+AWS CLI config files are supported, but require an additional dependency:
+
+```elixir
+{:configparser_ex, "~> 4.0"}
+```
+
+You can then add `{:awscli, "profile_name", timeout}` to the above config and
+it will pull information from `~/.aws/config` and `~/.aws/credentials`
+
+Alternatively, if you already have a profile name set in the `AWS_PROFILE` environment
+variable, you can use that with `{:awscli, :system, timeout}`
+
+```elixir
+config :ex_aws,
+  access_key_id: [{:system, "AWS_ACCESS_KEY_ID"}, {:awscli, "default", 30}, :instance_role],
+  secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, {:awscli, "default", 30}, :instance_role]
+```
+
+For role based authentication via `role_arn` and `source_profile` an additional
+dependency is required:
+
+```elixir
+{:ex_aws_sts, "~> 2.0"}
+```
+
+Further information on role based authentication is provided in said dependency.
+
+#### Session token configuration
+
+Alternatively, you can also provide `AWS_SESSION_TOKEN` to `security_token` to authenticate
+with session token:
+
+```elixir
+config :ex_aws,
+  access_key_id: {:system, "AWS_ACCESS_KEY_ID"},
+  security_token: {:system, "AWS_SESSION_TOKEN"},
+  secret_access_key: {:system, "AWS_SECRET_ACCESS_KEY"}
+```
+
+### Hackney configuration
+
+ExAws by default uses [hackney](https://github.com/benoitc/hackney) to make
+HTTP requests to AWS API. You can modify the options as such:
+
+```elixir
+config :ex_aws, :hackney_opts,
+  follow_redirect: true,
+  recv_timeout: 30_000
+```
+
+### AWS Region Configuration.
+
+You can set the region used by default for requests.
+
+```elixir
+config :ex_aws,
+  region: "us-west-2",
+```
+
+Alternatively, the region can be set in an environment variable:
+
+```elixir
+config :ex_aws,
+  region: {:system, "AWS_REGION"}
+```
+
+### JSON Codec Configuration
+
+The default JSON codec is Jason.  You can choose a different one:
+
+```elixir
+config :ex_aws,
+  json_codec: Poison
+```
+
+### Path Normalization
+
+Paths that include multiple consecutive /'s will by default be normalized
+to a single slash. There are cases when paths need to be literal (S3) and
+this normalization behaviour can be turned off via configuration:
+
+```elixir
+config :ex_aws,
+  normalize_path: false
+```
+
+## Direct Usage
+
+ExAws can also be used directly without any specific service module.
+
+You need to figure out how the API of the specific AWS service works, in particular:
+
+- Protocol (JSON or query).
+- Path (depends on the service and the specific operation, usually "/").
+- Service name (used to generate the request signature,
+  [as described here](https://docs.aws.amazon.com/general/latest/gr/sigv4-create-string-to-sign.html)).
+- Request body, query params, HTTP method, and headers (depends on the service
+  and specific operation).
+
+You can look for this information in the service's API reference at
+[docs.aws.amazon.com](https://docs.aws.amazon.com/index.html) or, for example,
+in the Go SDK API models at [github.com/aws/aws-sdk-go](https://github.com/aws/aws-sdk-go/tree/master/models/apis) (look for a `api-*.json` file).
+
+The protocol dictates which operation module to use for the request. If the
+protocol is JSON, use `ExAws.Operation.JSON`, if it's query, use
+`ExAws.Operation.Query`.
+
+### Examples
+
+#### Redshift DescribeClusters
+
+```elixir
+action = :describe_clusters
+action_string = action |> Atom.to_string |> Macro.camelize
+
+operation =
+  %ExAws.Operation.Query{
+    path: "/",
+    params: %{"Action" => action_string},
+    service: :redshift,
+    action: action
+  }
+
+ExAws.request(operation)
+```
+
+#### ECS RunTask
+
+```elixir
+data = %{
+  taskDefinition: "hello_world",
+  launchType: "FARGATE",
+  networkConfiguration: %{
+    awsvpcConfiguration: %{
+      subnets: ["subnet-1a2b3c4d", "subnet-4d3c2b1a"],
+      securityGroups: ["sg-1a2b3c4d"],
+      assignPublicIp: "ENABLED"
+    }
+  }
+}
+
+operation =
+  %ExAws.Operation.JSON{
+    http_method: :post,
+    headers: [
+      {"x-amz-target", "AmazonEC2ContainerServiceV20141113.RunTask"},
+      {"content-type", "application/x-amz-json-1.1"}
+    ],
+    path: "/",
+    data: data,
+    service: :ecs
+}
+
+ExAws.request(operation)
+```
+
+## Highlighted Features
+
+- Easy configuration.
+- Minimal dependencies. Choose your favorite JSON codec and HTTP client.
+- Elixir streams to automatically retrieve paginated resources.
+- Elixir protocols allow easy customization of Dynamo encoding / decoding.
+- Simple. ExAws aims to provide a clear and consistent elixir wrapping around
+  AWS APIs, not abstract them away entirely. For every action in a given AWS
+  API there is a corresponding function within the appropriate module. Higher
+  level abstractions like the aforementioned streams are in addition to and not
+  instead of basic API calls.
+
+That's it!
 
 ## Retries
 
-ExAws will retry failed AWS API requests using exponential backoff per the "Full Jitter" formula described in https://www.awsarchitectureblog.com/2015/03/backoff.html
+ExAws will retry failed AWS API requests using exponential backoff per the
+"Full Jitter" formula described in
+https://www.awsarchitectureblog.com/2015/03/backoff.html
 
 The algorithm uses three values, which are configurable:
 
@@ -127,12 +264,18 @@ config :ex_aws, :retries,
 * `base_backoff_in_ms` corresponds to the `base` value described in the blog post
 * `max_backoff_in_ms` corresponds to the `cap` value described in the blog post
 
+## Testing
+
+If you want to run `mix test`, you'll need to have a local `dynamodb` running
+on port 8000.  See [Setting up DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html).
+
+The redirect test will intentionally cause a warning to be issued.
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2014 CargoSense, Inc.
+Copyright (c) 2014-2020 CargoSense, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

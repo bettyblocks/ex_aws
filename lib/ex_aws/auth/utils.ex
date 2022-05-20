@@ -1,28 +1,16 @@
 defmodule ExAws.Auth.Utils do
-
   @moduledoc false
 
-  def uri_encode(url) do
-    url
-    |> String.replace("+", " ")
-    |> URI.encode(&valid_path_char?/1)
-  end
+  def uri_encode(url), do: ExAws.Request.Url.uri_encode(url)
 
   def uri_encode_v2(url) do
     signs = %{"+" => "%2B", "=" => "%3D", "?" => "%3F", "@" => "%40",
       "$" => "%24", "&" => "%26", "," => "%2C", "/" => "%2F", ":" => "%3A",
-      ";" => "%3B", "?" => "%3F"}
+      ";" => "%3B"}
 
     Enum.reduce(signs, URI.encode(url), fn sign, acc ->
       String.replace(acc, elem(sign, 0), elem(sign, 1), global: true)
     end)
-  end
-
-  # Space character
-  def valid_path_char?(?\ ), do: false
-  def valid_path_char?(?/), do: true
-  def valid_path_char?(c) do
-    URI.char_unescaped?(c) && !URI.char_reserved?(c)
   end
 
   def hash_sha256(data) do
@@ -31,26 +19,33 @@ defmodule ExAws.Auth.Utils do
     |> bytes_to_hex
   end
 
-  def hmac_sha(key, data) do
-    :crypto.hmac(:sha, key, data)
-  end
+  # :crypto.mac/4 is introduced in Erlang/OTP 22.1 and :crypto.hmac/3 is removed
+  # in Erlang/OTP 24. The check is needed for backwards compatibility.
+  # The Code.ensure_loaded/1 call is executed so function_expored?/3 can be used
+  # to determine which function to use.
+  Code.ensure_loaded?(:crypto) || IO.warn(":crypto module failed to load")
 
-  def hmac_sha256(key, data) do
-    :crypto.hmac(:sha256, key, data)
+  case function_exported?(:crypto, :mac, 4) do
+    true ->
+      def hmac_sha(key, data), do: :crypto.mac(:hmac, :sha, key, data)
+      def hmac_sha256(key, data), do: :crypto.mac(:hmac, :sha256, key, data)
+
+    false ->
+      def hmac_sha(key, data), do: :crypto.hmac(:sha, key, data)
+      def hmac_sha256(key, data), do: :crypto.hmac(:sha256, key, data)
   end
 
   def bytes_to_hex(bytes) do
     bytes
-    |> Base.encode16
-    |> String.downcase
+    |> Base.encode16(case: :lower)
   end
 
-  def service_name(service), do: service |> Atom.to_string
+  def service_name(service), do: service |> Atom.to_string()
 
   def method_string(method) do
     method
-    |> Atom.to_string
-    |> String.upcase
+    |> Atom.to_string()
+    |> String.upcase()
   end
 
   def date({date, _time}) do
@@ -62,7 +57,7 @@ defmodule ExAws.Auth.Utils do
     time = time |> quasi_iso_format
 
     [date, "T", time, "Z"]
-    |> IO.iodata_to_binary
+    |> IO.iodata_to_binary()
   end
 
   def quasi_iso_format({y, m, d}) do
