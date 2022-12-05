@@ -18,6 +18,7 @@
         "ap-south-1" => %{"description" => "Asia Pacific (Mumbai)"},
         "ap-southeast-1" => %{"description" => "Asia Pacific (Singapore)"},
         "ap-southeast-2" => %{"description" => "Asia Pacific (Sydney)"},
+        "ap-southeast-3" => %{"description" => "Asia Pacific (Jakarta)"},
         "ca-central-1" => %{"description" => "Canada (Central)"},
         "eu-central-1" => %{"description" => "EU (Frankfurt)"},
         "eu-west-1" => %{"description" => "EU (Ireland)"},
@@ -1182,6 +1183,27 @@
             "us-west-2" => %{}
           }
         },
+        "eks" => %{
+          "endpoints" => %{
+            "ap-northeast-1" => %{},
+            "ap-northeast-2" => %{},
+            "ap-east-1" => %{},
+            "ap-south-1" => %{},
+            "ap-southeast-1" => %{},
+            "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
+            "eu-central-1" => %{},
+            "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "eu-north-1" => %{},
+            "sa-east-1" => %{},
+            "us-east-1" => %{},
+            "us-east-2" => %{},
+            "us-west-1" => %{},
+            "us-west-2" => %{}
+          }
+        },
         "cognito-idp" => %{
           "endpoints" => %{
             "ap-northeast-1" => %{},
@@ -1189,6 +1211,7 @@
             "ap-south-1" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
+            "ca-central-1" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
             "eu-west-2" => %{},
@@ -1291,6 +1314,7 @@
             "ca-central-1" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
+            "eu-west-2" => %{},
             "us-east-1" => %{},
             "us-east-2" => %{},
             "us-west-1" => %{},
@@ -1325,6 +1349,10 @@
               "hostname" => "s3.ap-southeast-2.amazonaws.com",
               "signatureVersions" => ["s3", "s3v4"]
             },
+            "ap-southeast-3" => %{
+              "hostname" => "s3.ap-southeast-3.amazonaws.com",
+              "signatureVersions" => ["s3", "s3v4"]
+            },
             "af-south-1" => %{
               "hostname" => "s3.af-south-1.amazonaws.com",
               "signatureVersions" => ["s3", "s3v4"]
@@ -1335,6 +1363,7 @@
               "hostname" => "s3.eu-west-1.amazonaws.com",
               "signatureVersions" => ["s3", "s3v4"]
             },
+            "eu-south-1" => %{},
             "eu-west-2" => %{},
             "eu-west-3" => %{},
             "eu-north-1" => %{},
@@ -1397,14 +1426,20 @@
         },
         "medialive" => %{
           "endpoints" => %{
+            "ap-south-1" => %{},
             "ap-northeast-1" => %{},
             "ap-northeast-2" => %{},
             "ap-southeast-1" => %{},
             "ap-southeast-2" => %{},
             "eu-central-1" => %{},
             "eu-west-1" => %{},
+            "eu-west-2" => %{},
+            "eu-west-3" => %{},
+            "eu-north-1" => %{},
             "us-east-1" => %{},
-            "us-west-2" => %{}
+            "us-east-2" => %{},
+            "us-west-2" => %{},
+            "sa-east-1" => %{}
           }
         },
         "discovery" => %{"endpoints" => %{"us-west-2" => %{}}},
@@ -1503,6 +1538,7 @@
             "fips-us-east-2" => %{},
             "fips-us-west-1" => %{},
             "fips-us-west-2" => %{},
+            "me-south-1" => %{},
             "sa-east-1" => %{},
             "us-east-1" => %{"sslCommonName" => "queue.{dnsSuffix}"},
             "us-east-2" => %{},
