@@ -7,7 +7,7 @@ defmodule ExAws.Auth do
 
   @moduledoc false
 
-  @allowed_subresources ~w(acl lifecycle location logging notification partNumber policy requestPayment uploadId uploads versionId versioning versions website)
+  @allowed_subresources ~w(acl cors lifecycle location logging notification partNumber policy requestPayment uploadId uploads versionId versioning versions website)
   @unsignable_headers ["x-amzn-trace-id"]
   @unsignable_headers_multi_case ["x-amzn-trace-id", "X-Amzn-Trace-Id"]
 
