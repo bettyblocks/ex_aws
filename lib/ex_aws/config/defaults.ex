@@ -38,6 +38,16 @@ defmodule ExAws.Config.Defaults do
     |> Map.merge(defaults(:lex))
   end
 
+  def defaults(:"personalize-runtime") do
+    %{service_override: :personalize}
+    |> Map.merge(defaults(:personalize))
+  end
+
+  def defaults(:"personalize-events") do
+    %{service_override: :personalize}
+    |> Map.merge(defaults(:personalize))
+  end
+
   def defaults(:sagemaker_runtime) do
     %{service_override: :sagemaker}
     |> Map.merge(defaults(:sagemaker))
@@ -73,6 +83,17 @@ defmodule ExAws.Config.Defaults do
     |> Map.merge(defaults(:geo))
   end
 
+  def defaults(chime_service)
+      when chime_service in [
+             :"chime-sdk-media-pipelines",
+             :"chime-sdk-identity",
+             :"chime-sdk-meetings",
+             :"chime-sdk-voice"
+           ] do
+    %{service_override: :chime}
+    |> Map.merge(defaults(:chime))
+  end
+
   def defaults(_) do
     Map.merge(
       %{
@@ -91,7 +112,7 @@ defmodule ExAws.Config.Defaults do
   end
 
   @partitions [
-    {~r/^(us|eu|af|ap|sa|ca|me)\-\w+\-\d+$/, "aws"},
+    {~r/^(us|eu|af|ap|sa|ca|me)\-\w+-\d?-?\w+$/, "aws"},
     {~r/^cn\-\w+\-\d+$/, "aws-cn"},
     {~r/^us\-gov\-\w+\-\d+$/, "aws-us-gov"}
   ]
@@ -140,7 +161,6 @@ defmodule ExAws.Config.Defaults do
   defp do_host(partition, service_slug, region) do
     partition = @partition_data |> Map.fetch!(partition)
     partition_name = partition["partition"]
-
     service = service_map(service_slug)
 
     partition

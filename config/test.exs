@@ -1,11 +1,11 @@
 import Config
 
-config :logger, level: :warn
+config :logger, level: :warning
 
 config :ex_aws,
   json_codec: Test.JSONCodec,
-  access_key_id: ["test_key_id"],
-  secret_access_key: ["secret_access_key"]
+  access_key_id: "testkeyid",
+  secret_access_key: "secretaccesskey"
 
 config :ex_aws, :kinesis,
   scheme: "https://",

@@ -1,3 +1,53 @@
+v2.5.4 (2024-06-04)
+- Endpoint and region updates
+- Add support for Elixir 1.16
+- Drop support for Elixir 1.11
+- Add support for `sso_session` in `.aws/config`
+- Add support for EventBridge Pipes service
+- Add support for Pinpoint Mobiletargeting service
+- Add docs for running DynamoDB locally
+- Allow iodata body in s3 requests
+
+v2.5.3 (2024-03-20)
+- Add mappings for Chime
+
+v2.5.2 (2024-03-19)
+- Endpoint updates
+
+v2.5.1 (2024-01-11)
+- Endpoint updates
+- Documentation updates
+- Fix request error handling when error type is a proplist
+- Fixes to ensure Req and Finch clients return the same success fields as hackney
+- Add basic support for Personalise service
+- Add basic support for Bedrock service
+
+v2.5.0
+- [Breaking] Bump minimum elixir version to 1.11
+- Replace retired HTTPotion with Req as default web client
+- Endpoint updates
+
+v2.4.4
+- Endpoint updates
+- Add new endpoints for Chime SDK Media Pipelines API
+
+v2.4.3
+- Switch default behaviour of credential refreshing so that it must be explicitly enabled with
+`refreshable: true`. Having it as the default behaviour was causing breaking issues with ignoring 
+overridesin places they shouldn't have been.
+- Update endpoints
+
+v2.4.2
+- Add name, request, and response data to telemetry
+- Force refresh of auth config during long-running streaming operations to avoid failed auth
+- Update endpoints
+- Update docs
+
+v2.4.1
+- Add support for credentials_process in AWS credentials config
+- Service endpoint updates
+- Switch to `Config` from `Mix.Config`
+
 v2.4.0
 - Increase minimum elixir version to 1.10
 - Add `error_parser` field to operations. This may be optionally populated by services which

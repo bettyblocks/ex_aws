@@ -2,13 +2,13 @@ defmodule ExAws.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/ex-aws/ex_aws"
-  @version "2.4.0"
+  @version "2.5.4"
 
   def project do
     [
       app: :ex_aws,
       version: @version,
-      elixir: "~> 1.10",
+      elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       description: "Generic AWS client",
       name: "ExAws",
@@ -51,7 +51,7 @@ defmodule ExAws.Mixfile do
       {:mox, "~> 1.0", only: :test},
       {:sweet_xml, "~> 0.7", optional: true},
       {:excoveralls, "~> 0.10", only: :test},
-      {:httpotion, "~> 3.1", only: :test},
+      {:req, "~> 0.3", only: :test},
       {:timex, "~> 3.0"}
     ]
   end
@@ -59,7 +59,8 @@ defmodule ExAws.Mixfile do
   defp package do
     [
       description: description(),
-      files: ["priv", "lib", "config", "mix.exs", "README*", "LICENSE"],
+      files: ["priv", "lib", "config", "mix.exs", "CHANGELOG.md", "README*", "LICENSE"],
+      exclude_patterns: ["_build", "deps", "test", "*~"],
       maintainers: ["Bernard Duggan", "Ben Wilson"],
       licenses: ["MIT"],
       links: %{

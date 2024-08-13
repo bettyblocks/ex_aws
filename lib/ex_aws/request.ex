@@ -45,7 +45,7 @@ defmodule ExAws.Request do
           {:ok, resp}
 
         {:ok, %{status_code: status} = _resp} when status == 301 ->
-          Logger.warn("ExAws: Received redirect, did you specify the correct region?")
+          Logger.warning("ExAws: Received redirect, did you specify the correct region?")
           {:error, {:http_error, status, "redirected"}}
 
         {:ok, %{status_code: status} = resp} when status in 400..499 ->
@@ -79,8 +79,14 @@ defmodule ExAws.Request do
             attempt_again?(attempt, reason, config)
           )
 
-        {:error, %{reason: reason}} ->
-          Logger.warn(
+        {:error, reason_struct} ->
+          reason =
+            case reason_struct do
+              %{reason: reason} -> reason
+              [reason: reason] -> reason
+            end
+
+          Logger.warning(
             "ExAws: HTTP ERROR: #{inspect(reason)} for URL: #{inspect(safe_url)} ATTEMPT: #{attempt}"
           )
 
@@ -100,7 +106,14 @@ defmodule ExAws.Request do
   defp do_request(config, method, safe_url, req_body, full_headers, attempt, service) do
     telemetry_event = Map.get(config, :telemetry_event, [:ex_aws, :request])
     telemetry_options = Map.get(config, :telemetry_options, [])
-    telemetry_metadata = %{options: telemetry_options, attempt: attempt, service: service}
+
+    telemetry_metadata = %{
+      options: telemetry_options,
+      attempt: attempt,
+      service: service,
+      request_body: req_body,
+      operation: extract_operation(full_headers)
+    }
 
     :telemetry.span(telemetry_event, telemetry_metadata, fn ->
       result =
@@ -111,17 +124,31 @@ defmodule ExAws.Request do
           full_headers,
           Map.get(config, :http_opts, [])
         )
+        |> maybe_transform_response()
 
-      telemetry_result =
+      stop_metadata =
         case result do
-          {:ok, %{status_code: status}} when status in 200..299 or status == 304 -> :ok
-          _ -> :error
+          {:ok, %{status_code: status} = resp} when status in 200..299 or status == 304 ->
+            %{result: :ok, response_body: Map.get(resp, :body)}
+
+          error ->
+            %{result: :error, error: extract_error(error)}
         end
 
-      telemetry_metadata = Map.put(telemetry_metadata, :result, telemetry_result)
+      telemetry_metadata = Map.merge(telemetry_metadata, stop_metadata)
       {result, telemetry_metadata}
     end)
   end
+
+  defp extract_operation(headers), do: Enum.find_value(headers, &match_operation/1)
+
+  defp match_operation({"x-amz-target", value}), do: value
+  defp match_operation({_key, _value}), do: nil
+
+  defp extract_error({:ok, %{body: body}}), do: body
+  defp extract_error({:ok, response}), do: response
+  defp extract_error({:error, error}), do: error
+  defp extract_error(error), do: error
 
   def client_error(%{status_code: status, body: body} = error, json_codec) do
     case json_codec.decode(body) do
@@ -194,4 +221,11 @@ defmodule ExAws.Request do
     |> :rand.uniform()
     |> :timer.sleep()
   end
+
+  def maybe_transform_response({:ok, %{status: status, body: body, headers: headers}}) do
+    # Req and Finch use status (rather than status_code) as a key.
+    {:ok, %{status_code: status, body: body, headers: headers}}
+  end
+
+  def maybe_transform_response(response), do: response
 end

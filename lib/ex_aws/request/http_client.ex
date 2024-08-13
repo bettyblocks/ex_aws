@@ -7,22 +7,49 @@ defmodule ExAws.Request.HttpClient do
 
   The default is `:hackney`.
 
-  ## Example
+  ## Example: Req
 
-  Here for example is the code required to make HTTPotion comply with this spec.
+  Here is an example using [Req](https://hexdocs.pm/req/readme.html).
 
-  In your config you would do:
+  First, create a module implementing the `ExAws.Request.HttpClient` behaviour.
 
-      config :ex_aws,
-        http_client: ExAws.Request.HTTPotion
+  ```
+  defmodule ExAws.Request.Req do
+    @moduledoc \"""
+    ExAws HTTP client implementation for Req.
+    \"""
+    @behaviour ExAws.Request.HttpClient
 
-      defmodule ExAws.Request.HTTPotion do
-        @behaviour ExAws.Request.HttpClient
-        def request(method, url, body, headers, http_opts) do
-          {:ok, HTTPotion.request(method, url, [body: body, headers: headers, ibrowse: [headers_as_is: true]])}
-        end
+    @impl ExAws.Request.HttpClient
+    def request(method, url, body, headers, _http_opts) do
+      case Req.request(method: method, url: url, body: body, headers: headers, decode_body: false) do
+        {:ok, response} -> {:ok, adapt_response(response)}
+        {:error, reason} -> {:error, %{reason: reason}}
       end
+    end
 
+    defp adapt_response(response) do
+      # adapt the response to fit the shape expected by ExAWS
+      flat_headers =
+        Enum.flat_map(response.headers, fn
+          {name, vals} when is_list(vals) -> Enum.map(vals, &{name, &1})
+          {name, val} -> {name, val}
+        end)
+
+      %{
+        body: response.body,
+        status_code: response.status,
+        headers: flat_headers
+      }
+    end
+  end
+  ```
+
+  Then, in build-time config (e.g. config.exs):
+
+  ```
+  config :ex_aws,
+    http_client: ExAws.Request.Req
   ```
 
   When conforming your selected HTTP Client take note of a few things:
@@ -37,7 +64,7 @@ defmodule ExAws.Request.HttpClient do
     - Ensure the call to your chosen HTTP Client is correct and the return is
       in the same format as defined in the `c:request/5` callback
 
-  ## Example
+  ## Example: Mojito
 
       def request(method, url, body, headers, http_opts \\ []) do
         Mojito.request(method, url, headers, body, http_opts)
