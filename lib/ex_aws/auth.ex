@@ -7,6 +7,7 @@ defmodule ExAws.Auth do
 
   @moduledoc false
 
+  @allowed_subresources ~w(acl cors lifecycle location logging notification partNumber policy requestPayment uploadId uploads versionId versioning versions website)
   @unsignable_headers ["x-amzn-trace-id"]
   @unsignable_headers_multi_case ["x-amzn-trace-id", "X-Amzn-Trace-Id"]
 
@@ -312,16 +313,22 @@ defmodule ExAws.Auth do
 
   defp canonical_query(""), do: ""
   defp canonical_query(query) do
-    "?" <> query
+    query
     |> String.split("&")
-    |> Enum.map(fn chunk ->
-      case chunk |> String.split("=") do
-        [param, ""] -> param
-        [param, value] -> "#{param}=#{value}"
+    |> Enum.flat_map(fn chunk ->
+      case String.split(chunk, "=")  do
+        [param, ""] when param in @allowed_subresources -> [param]
+        [param, value] when param in @allowed_subresources -> ["#{param}=#{value}"]
+        [_, _] -> []
       end
     end)
     |> Enum.join("&")
+    |> prepend_question_mark
   end
+
+  @spec prepend_question_mark(binary) :: binary
+  defp prepend_question_mark(""), do: ""
+  defp prepend_question_mark(query_string), do: "?#{query_string}"
 
   defp remove_dup_spaces(str), do: remove_dup_spaces(str, "")
   defp remove_dup_spaces(str, str), do: str
